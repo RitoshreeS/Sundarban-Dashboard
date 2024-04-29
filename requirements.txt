@@ -1,0 +1,10 @@
+dash==2.16.1
+pandas
+python-docx
+Flask
+plotly
+datetime
+geopandas
+geojson-rewind
+folium
+gunicorn
