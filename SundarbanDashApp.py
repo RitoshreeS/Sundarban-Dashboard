@@ -122,6 +122,7 @@ mymap.save("Data/plant_issues_map_with_geojson_colored_with_static_textbox.html"
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
+server = app.server
 
 # Define image source file path for the WWF India logo
 image_link = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/World_Wide_Fund_for_Nature_logo.svg/1200px-World_Wide_Fund_for_Nature_logo.svg.png'
