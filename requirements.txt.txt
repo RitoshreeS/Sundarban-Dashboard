@@ -7,3 +7,4 @@ datetime
 geopandas
 geojson-rewind
 folium
+gunicorn
