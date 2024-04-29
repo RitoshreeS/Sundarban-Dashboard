@@ -118,7 +118,7 @@ title_html = """
 </div>
 """
 # Save the map as HTML to the specified directory
-mymap.save("Data/plant_issues_map_with_geojson_colored_with_static_textbox.html")
+mymap.save("plant_issues_map_with_geojson_colored_with_static_textbox.html")
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
@@ -181,7 +181,7 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'border': 'ridge', 'pad
             ),
             html.H1('AGRICULTURAL QUERIES IN SUNDARBAN LANDSCAPE', style={'textAlign': 'center', 'color': 'White', 'font-size': 36}),
             # Area for the Folium map
-            html.Iframe(id='plot1', srcDoc=open("Data/plotly-dash/plant_issues_map_with_geojson_colored_with_static_textbox.html", "r").read(), style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','width':'100%','height': '1500px'}),
+            html.Iframe(id='plot1', srcDoc=open("plant_issues_map_with_geojson_colored_with_static_textbox.html", "r").read(), style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','width':'100%','height': '1500px'}),
             # Legend box
             # Area for the Plotly table
             html.Div(id='plot_query', style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','height': '1000px'}), 
@@ -611,12 +611,12 @@ def update_graphs(n_clicks):
 
 def render_content(tab):
     
-    gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+    gdf = gpd.read_file("Data/SB_Landscape_Boundary.shp.geojson")
         # Read the CSV file containing soil data
-    df_soilavg = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
+    df_soilavg = pd.read_csv('Data/Soil_avg.csv')
 
     # Load the GeoJSON file containing polygon data
-    with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+    with open("Data/Soil_villages.geojson") as f:
         geo = json.load(f)
     
     # Define colors for each sdtname
@@ -2211,7 +2211,7 @@ def render_content(tab):
 def update_independent_plot(n_clicks):
 
     
-    df_soilavg=pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
+    df_soilavg=pd.read_csv('Data/Soil_avg.csv')
 
     fig = px.bar(df_soilavg, x="Village", y=["PH","EC1:2 (ds/m)","O/C (%)","N (kg/ha)","P (kg/ha)","K (kg/ha)","Cu (ppm)","Zn (ppm)","Fe (ppm)","Mn (ppm)","B (ppm)","S (ppm)"], title="Soil Composition Per Village")
     fig.update_layout(height=800)
