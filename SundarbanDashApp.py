@@ -13,7 +13,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 # Load the Word document
-doc = Document('D:/wwf india/Website Dashboard/plotly-dash/Crop Data.docx')
+doc = Document('Data/Crop Data.docx')
 
 # Assuming the table is the first table in the document
 table = doc.tables[0]
@@ -31,9 +31,9 @@ df_cropdata = pd.DataFrame(data[1:], columns=data[0])
 df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 
 # Read the GeoJSON file
-gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+gdf = gpd.read_file("Data/SB_Landscape_Boundary.shp.geojson")
 
-with open ("D:/wwf india/Website Dashboard/plotly-dash/Polygon/27_villages.shp _all.geojson") as f:
+with open ("Data/27_villages.shp _all.geojson") as f:
     geojson_data = json.load(f)
 
 # Filter the GeoJSON data for the specified locations
@@ -47,7 +47,7 @@ colors = {
     'Gosaba': 'red'
 }
 
-df = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
+df = pd.read_csv('Data/QueryData.csv')
 # Drop rows with NaN values
 df.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
 
@@ -118,7 +118,7 @@ title_html = """
 </div>
 """
 # Save the map as HTML to the specified directory
-mymap.save("D:/wwf india/Website Dashboard/plotly-dash/plant_issues_map_with_geojson_colored_with_static_textbox.html")
+mymap.save("Data/plant_issues_map_with_geojson_colored_with_static_textbox.html")
 
 # Initialize the Dash app
 app = dash.Dash(__name__)
@@ -180,7 +180,7 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'border': 'ridge', 'pad
             ),
             html.H1('AGRICULTURAL QUERIES IN SUNDARBAN LANDSCAPE', style={'textAlign': 'center', 'color': 'White', 'font-size': 36}),
             # Area for the Folium map
-            html.Iframe(id='plot1', srcDoc=open("D:/wwf india/Website Dashboard/plotly-dash/plant_issues_map_with_geojson_colored_with_static_textbox.html", "r").read(), style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','width':'100%','height': '1500px'}),
+            html.Iframe(id='plot1', srcDoc=open("Data/plotly-dash/plant_issues_map_with_geojson_colored_with_static_textbox.html", "r").read(), style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','width':'100%','height': '1500px'}),
             # Legend box
             # Area for the Plotly table
             html.Div(id='plot_query', style={'border': 'ridge', 'padding': '10px', 'backgroundColor': 'black','height': '1000px'}), 
@@ -237,9 +237,9 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'border': 'ridge', 'pad
 def update_graphs(n_clicks):
     
     
-    df_weather = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Weather.csv')
+    df_weather = pd.read_csv('Data/Weather.csv')
     # Load the GeoJSON file using geopandas
-    gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+    gdf = gpd.read_file("Data/SB_Landscape_Boundary.shp.geojson")
 
     # Filter the GeoDataFrame to include only the desired values of "sdtname"
     filtered_gdf = gdf[gdf['sdtname'].isin(['Gosaba', 'Patharpratima', 'Kultali'])]
@@ -580,9 +580,9 @@ def update_crop_info(selected_crop, selected_month):
 def update_graphs(n_clicks):
     
     
-    df_weather = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Weather.csv')
+    df_weather = pd.read_csv('Data/Weather.csv')
     # Read the query data
-    df_query = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
+    df_query = pd.read_csv('Data/QueryData.csv')
     df_query.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
     # Select columns to display in the table (excluding LATITUDE and LONGITUDE)
     df_display = df_query.drop(columns=['LATITUDE', 'LONGITUDE'])
