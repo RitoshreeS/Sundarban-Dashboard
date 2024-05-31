@@ -2357,11 +2357,7 @@ def update_independent_plot(n_clicks):
     fig.update_layout(height=800)
     
     return fig
-'''
-# Run the app
-if __name__ == '__main__':
-    app.run_server(host="0.0.0.0", port="8050")
-'''
+
 # Run the app and open it in a new tab
 if __name__ == '__main__':
     app.run_server(debug=True, port=8051)
