@@ -31,9 +31,9 @@ df_cropdata = pd.DataFrame(data[1:], columns=data[0])
 df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 
 # Read the GeoJSON file
-gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+gdf = gpd.read_file("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/SB_Landscape_Boundary.shp.geojson")
 
-with open ("D:/wwf india/Website Dashboard/plotly-dash/Polygon/27_villages.shp _all.geojson") as f:
+with open ("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/27_villages.shp_all.geojson") as f:
     geojson_data = json.load(f)
 
 # Filter the GeoJSON data for the specified locations
@@ -47,68 +47,8 @@ colors = {
     'Gosaba': 'red'
 }
 
-df = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
-# Drop rows with NaN values
-df.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
+df = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/QueryData.csv')
 
-# Create a map centered around the average latitude and longitude
-map_center = [sum(df['LATITUDE']) / len(df['LATITUDE']), sum(df['LONGITUDE']) / len(df['LONGITUDE'])]
-mymap = folium.Map(location=map_center, zoom_start=10)
-
-# Add borders of polygons to the map
-for index, row in gdf.iterrows():
-    if row.geometry.geom_type == 'Polygon':
-        # For single polygons
-        coords = [(coord[1], coord[0]) for coord in row.geometry.exterior.coords]
-        folium.PolyLine(locations=coords, color='black', weight=2, opacity=1).add_to(mymap)
-    elif row.geometry.geom_type == 'MultiPolygon':
-        # For multipolygons
-        for polygon in row.geometry.geoms:
-            coords = [(coord[1], coord[0]) for coord in polygon.exterior.coords]
-            folium.PolyLine(locations=coords, color='black', weight=2, opacity=1).add_to(mymap)
-            
-# Define a style function to make all polygons yellow
-def style_function(feature):
-    return {'fillColor': 'rgba(255, 255, 0, 0.5)', 'color': 'yellow'}
-
-# Add GeoJSON polygons to the map with the specified style
-folium.GeoJson(geojson_data, style_function=style_function).add_to(mymap)
-
-# Add GeoJSON traces for specified locations with different colors
-for _, row in filtered_gdf.iterrows():
-    folium.GeoJson(row['geometry'], style_function=lambda x, color=colors[row['sdtname']]: {'fillColor': color}).add_to(mymap)
-
-
-# Add markers for each data point with a textbox showing the QUERY
-for index, row in df.iterrows():
-    popup_text = f"<b>{row['QUERY']}</b><br>Location: {row['BLOCK']}"
-    folium.Marker(location=[row['LATITUDE'], row['LONGITUDE']], 
-                  icon=folium.DivIcon(html=f"""
-        <div style="background-color: white; border: 1px solid black; padding: 5px; border-radius: 5px; width: 550px; height: 40px;">
-            <p style="margin: 0; font-size: 18px; white-space: nowrap;">{row['BLOCK']}: {row['QUERY']}</p>
-        </div>
-        """)).add_to(mymap)
-
-
-# Define legend items
-legend_html = """
-<div style="position: fixed; 
-     bottom: 50px; left: 50px; width: 180px; height: 250px; 
-     border:2px solid grey; z-index:9999; font-size:18px;
-     background-color:white;
-     ">
-     <p style="text-align:center; margin-top:5px;"><strong>Blocks</strong></p>
-     <p style="color:blue; margin-left:10px;">&#9642; Kultali</p>
-     <p style="color:red; margin-left:10px;">&#9642; Gosaba</p>
-     <p style="color:green; margin-left:10px;">&#9642; Patharpratima</p>
-     <p style="color:black; margin-left:10px;">&#9642; Sundarban Landscape</p>
-     <p style="color:yellow; margin-left:10px;">&#9642; Villages</p>
-</div>
-"""
-
-# Save the map as HTML to the specified directory
-mymap.save("D:/wwf india/Website Dashboard/plotly-dash/plant_issues_map_with_geojson_colored_with_static_textbox.html")
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # Initialize the Dash app
 app = dash.Dash(__name__, assets_folder='assets', assets_url_path='/assets/')
 #app = dash.Dash(__name__, external_stylesheets=external_stylesheets) # type: ignore
