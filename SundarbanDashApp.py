@@ -51,7 +51,7 @@ df = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Da
 
 # Initialize the Dash app
 app = dash.Dash(__name__, assets_folder='assets', assets_url_path='https://github.com/RitoshreeS/Sundarban-Dashboard/tree/main/assets')
-
+server = app.server
 
 # Define image source file path for the WWF India logo
 image_link = 'https://github.com/RitoshreeS/Sundarban-Dashboard/tree/main/assets/WWF_logo.png'
