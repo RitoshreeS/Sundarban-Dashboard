@@ -13,7 +13,15 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 # Load the Word document
-doc = Document('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Crop%20Data.docx')
+doc = Document('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Crop Data.docx')
+
+# Download the document
+doc_response = requests.get(doc_url)
+with open('Crop Data.docx', 'wb') as f:
+    f.write(doc_response.content)
+
+# Load the downloaded Word document
+doc = Document('Crop Data.docx')
 
 # Assuming the table is the first table in the document
 table = doc.tables[0]
