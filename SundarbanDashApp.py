@@ -13,7 +13,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 # Load the Word document
-doc = Document('Data/Crop Data.docx')
+doc = Document('Sundarban-Dashboard/Data/Crop Data.docx')
 
 # Download the document
 doc_response = requests.get(doc_url)
@@ -39,9 +39,9 @@ df_cropdata = pd.DataFrame(data[1:], columns=data[0])
 df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 
 # Read the GeoJSON file
-gdf = gpd.read_file("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/SB_Landscape_Boundary.shp.geojson")
+gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
 
-with open ("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/27_villages.shp_all.geojson") as f:
+with open ("Sundarban-Dashboard/Data/27_villages.shp_all.geojson") as f:
     geojson_data = json.load(f)
 
 # Filter the GeoJSON data for the specified locations
@@ -55,15 +55,15 @@ colors = {
     'Gosaba': 'red'
 }
 
-df = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/QueryData.csv')
+df = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
 
 # Initialize the Dash app
-app = dash.Dash(__name__, assets_folder='assets', assets_url_path='https://github.com/RitoshreeS/Sundarban-Dashboard/tree/main/assets')
+app = dash.Dash(__name__, assets_folder='assets', assets_url_path='Sundarban-Dashboard/tree/main/assets')
 server = app.server
 
 # Define image source file path for the WWF India logo
-image_link = 'https://github.com/RitoshreeS/Sundarban-Dashboard/tree/main/assets/WWF_logo.png'
-app.layout = html.Div(style={'background-image': 'url("https://github.com/RitoshreeS/Sundarban-Dashboard/tree/main/assets/deer.jpg")',
+image_link = 'Sundarban-Dashboard/tree/main/assets/WWF_logo.png'
+app.layout = html.Div(style={'background-image': 'url("Sundarban-Dashboard/tree/main/assets/deer.jpg")',
                              'background-size': 'cover',
                              'background-repeat': 'no-repeat',
                              'background-position': 'center',
@@ -202,9 +202,9 @@ app.layout = html.Div(style={'background-image': 'url("https://github.com/Ritosh
 def update_graphs(n_clicks):
     
     
-    df_weather = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Weather.csv')
+    df_weather = pd.read_csv('Sundarban-Dashboard/Data/Weather.csv')
     # Load the GeoJSON file using geopandas
-    gdf = gpd.read_file("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/SB_Landscape_Boundary.shp.geojson")
+    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
 
     # Filter the GeoDataFrame to include only the desired values of "sdtname"
     filtered_gdf = gdf[gdf['sdtname'].isin(['Gosaba', 'Patharpratima', 'Kultali'])]
@@ -286,7 +286,7 @@ def update_graphs(n_clicks):
     
     
     # Load the GeoJSON file containing additional polygon data
-    with open("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Soil_villages.geojson") as f:
+    with open("Sundarban-Dashboard/Data/Soil_villages.geojson") as f:
         geo = json.load(f)
         
     # Add polygons from the additional GeoJSON file
@@ -574,7 +574,7 @@ def update_crop_info(selected_crop, selected_month):
     ], style={'margin-bottom': '40px'}))
 
     # Read the CSV file into DataFrame
-    df_calendar1 = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/cropcalendar.csv')
+    df_calendar1 = pd.read_csv('Sundarban-Dashboard/Data/cropcalendar.csv')
 
     # Convert START and FINISH columns to datetime objects
     df_calendar1['START'] = pd.to_datetime(df_calendar1['START'])
@@ -606,10 +606,10 @@ def update_graphs(n_clicks):
     
     
     # Load the GeoJSON file using geopandas
-    gdf = gpd.read_file("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/SB_Landscape_Boundary.shp.geojson")
+    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
 
     # Read the query data
-    df_query = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/QueryData.csv')
+    df_query = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
 
     # Filter the GeoDataFrame to include only specific sdtname values
     sdtnames_to_include = ['Gosaba', 'Patharpratima', 'Kultali']
@@ -633,7 +633,7 @@ def update_graphs(n_clicks):
     fig_query.update_traces(line=dict(width=6, color='black'), selector=dict(type='scattermapbox', fill='none'))
 
     # Load the GeoJSON file containing additional polygon data
-    with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+    with open("/Soil_villages.geojson") as f:
         geo = json.load(f)
 
     # Add polygons from the additional GeoJSON file
@@ -732,7 +732,7 @@ def update_graphs(n_clicks):
     
 
     # Read the query data
-    df_query = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/QueryData.csv')
+    df_query = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
     df_query.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
     
     # Select columns to display in the table (excluding LATITUDE and LONGITUDE)
@@ -761,12 +761,12 @@ def update_graphs(n_clicks):
 
 def render_content(tab):
     
-    gdf = gpd.read_file("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/SB_Landscape_Boundary.shp.geojson")
+    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
         # Read the CSV file containing soil data
-    df_soilavg = pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Soil_avg.csv')
+    df_soilavg = pd.read_csv('Sundarban-Dashboard/Data/Soil_avg.csv')
 
     # Load the GeoJSON file containing polygon data
-    with open("https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Soil_villages.geojson") as f:
+    with open("Sundarban-Dashboard/Data/Soil_villages.geojson") as f:
         geo = json.load(f)
     
     # Define colors for each sdtname
@@ -2359,7 +2359,7 @@ def render_content(tab):
 def update_independent_plot(n_clicks):
 
     
-    df_soilavg=pd.read_csv('https://github.com/RitoshreeS/Sundarban-Dashboard/blob/main/Data/Soil_avg.csv')
+    df_soilavg=pd.read_csv('Sundarban-Dashboard/Data/Soil_avg.csv')
 
     fig = px.bar(df_soilavg, x="Village", y=["PH","EC1:2 (ds/m)","O/C (%)","N (kg/ha)","P (kg/ha)","K (kg/ha)","Cu (ppm)","Zn (ppm)","Fe (ppm)","Mn (ppm)","B (ppm)","S (ppm)"], title="<b>Soil Composition Per Village<b>")
     fig.update_layout(height=800)
