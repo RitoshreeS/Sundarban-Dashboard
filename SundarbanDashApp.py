@@ -2360,5 +2360,6 @@ def update_independent_plot(n_clicks):
 
 # Run the app and open it in a new tab
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run_server(debug=False, host='0.0.0.0', port=8051)
+
     
