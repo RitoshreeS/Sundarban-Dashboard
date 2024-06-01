@@ -41,7 +41,7 @@ df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 # Read the GeoJSON file
 gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
 
-with open ("Sundarban-Dashboard/Data/27_villages.shp_all.geojson") as f:
+with open ("Sundarban-Dashboard/Data/27_villages.shp _all.geojson") as f:
     geojson_data = json.load(f)
 
 # Filter the GeoJSON data for the specified locations
