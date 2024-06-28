@@ -44,7 +44,7 @@ with open("Data/Soil_villages.geojson") as f:
 df_soilavg = pd.read_csv('Data/Soil_avg.csv')
 
 # Initialize the Dash app
-app = dash.Dash(__name__, assets_folder='assets', assets_url_path='/assets/')
+app = dash.Dash(__name__, assets_folder='assets', assets_url_path='assets')
 
 
 # Define image source file path for the WWF India logo
