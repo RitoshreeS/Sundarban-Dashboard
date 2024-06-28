@@ -8,62 +8,48 @@ from dash import Dash, html, dcc, Input, Output
 import requests
 from datetime import datetime
 import geopandas as gpd
-import folium
 import plotly.express as px
 from plotly.subplots import make_subplots
 
-# Load the Word document
-doc = Document('Sundarban-Dashboard/Data/Crop Data.docx')
+#Path for weather 
+df_weather = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Weather.csv')
 
-# Download the document
-doc_response = requests.get(doc_url)
-with open('Crop Data.docx', 'wb') as f:
-    f.write(doc_response.content)
-
-# Load the downloaded Word document
-doc = Document('Crop Data.docx')
-
-# Assuming the table is the first table in the document
+#Path for crop advisory
+doc = Document('D:/wwf india/Website Dashboard/plotly-dash/Data/Crop Data.docx')
 table = doc.tables[0]
-
-# Extract data from the table
 data = []
 for row in table.rows:
     row_data = [cell.text for cell in row.cells]
     data.append(row_data)
-
-# Convert the data to a DataFrame
 df_cropdata = pd.DataFrame(data[1:], columns=data[0])
 
-# Convert the "CROP" column to uppercase
 df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 
-# Read the GeoJSON file
-gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
+df_calendar1 = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Data/cropcalendar.csv')
 
-with open ("Sundarban-Dashboard/Data/27_villages.shp _all.geojson") as f:
+#Path for query data
+df_query = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
+
+
+# Path to read the GeoJSON files
+gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+
+with open ("D:/wwf india/Website Dashboard/plotly-dash/Polygon/27_villages.shp _all.geojson") as f:
     geojson_data = json.load(f)
+    
+with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+    geo = json.load(f)
 
-# Filter the GeoJSON data for the specified locations
-locations = ['Kultali', 'Patharpratima', 'Gosaba']
-filtered_gdf = gdf[gdf['sdtname'].isin(locations)]
-
-# Define colors for each location
-colors = {
-    'Kultali': 'blue',
-    'Patharpratima': 'green',
-    'Gosaba': 'red'
-}
-
-df = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
+#Path for soil data
+df_soilavg = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
 
 # Initialize the Dash app
-app = dash.Dash(__name__, assets_folder='assets', assets_url_path='Sundarban-Dashboard/tree/main/assets')
-server = app.server
+app = dash.Dash(__name__, assets_folder='assets', assets_url_path='/assets/')
+#app = dash.Dash(__name__, external_stylesheets=external_stylesheets) # type: ignore
 
 # Define image source file path for the WWF India logo
-image_link = 'Sundarban-Dashboard/tree/main/assets/WWF_logo.png'
-app.layout = html.Div(style={'background-image': 'url("Sundarban-Dashboard/tree/main/assets/deer.jpg")',
+image_link = '/assets/WWF_logo.png'
+app.layout = html.Div(style={'background-image': 'url("/assets/deer.jpg")',
                              'background-size': 'cover',
                              'background-repeat': 'no-repeat',
                              'background-position': 'center',
@@ -202,9 +188,9 @@ app.layout = html.Div(style={'background-image': 'url("Sundarban-Dashboard/tree/
 def update_graphs(n_clicks):
     
     
-    df_weather = pd.read_csv('Sundarban-Dashboard/Data/Weather.csv')
+    #df_weather = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Weather.csv')
     # Load the GeoJSON file using geopandas
-    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
+    #gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
 
     # Filter the GeoDataFrame to include only the desired values of "sdtname"
     filtered_gdf = gdf[gdf['sdtname'].isin(['Gosaba', 'Patharpratima', 'Kultali'])]
@@ -286,8 +272,8 @@ def update_graphs(n_clicks):
     
     
     # Load the GeoJSON file containing additional polygon data
-    with open("Sundarban-Dashboard/Data/Soil_villages.geojson") as f:
-        geo = json.load(f)
+    #with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+     #   geo = json.load(f)
         
     # Add polygons from the additional GeoJSON file
     for feature in geo['features']:
@@ -574,7 +560,7 @@ def update_crop_info(selected_crop, selected_month):
     ], style={'margin-bottom': '40px'}))
 
     # Read the CSV file into DataFrame
-    df_calendar1 = pd.read_csv('Sundarban-Dashboard/Data/cropcalendar.csv')
+    #df_calendar1 = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Data/cropcalendar.csv')
 
     # Convert START and FINISH columns to datetime objects
     df_calendar1['START'] = pd.to_datetime(df_calendar1['START'])
@@ -606,10 +592,10 @@ def update_graphs(n_clicks):
     
     
     # Load the GeoJSON file using geopandas
-    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
+    #gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
 
     # Read the query data
-    df_query = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
+    #df_query = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
 
     # Filter the GeoDataFrame to include only specific sdtname values
     sdtnames_to_include = ['Gosaba', 'Patharpratima', 'Kultali']
@@ -633,8 +619,8 @@ def update_graphs(n_clicks):
     fig_query.update_traces(line=dict(width=6, color='black'), selector=dict(type='scattermapbox', fill='none'))
 
     # Load the GeoJSON file containing additional polygon data
-    with open("/Soil_villages.geojson") as f:
-        geo = json.load(f)
+    #with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+     #   geo = json.load(f)
 
     # Add polygons from the additional GeoJSON file
     for feature in geo['features']:
@@ -730,9 +716,9 @@ def update_graphs(n_clicks):
 
 #_________________________________________________________________________________
     
-
+    
     # Read the query data
-    df_query = pd.read_csv('Sundarban-Dashboard/Data/QueryData.csv')
+   # df_query = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Data/QueryData.csv')
     df_query.dropna(subset=['LATITUDE', 'LONGITUDE'], inplace=True)
     
     # Select columns to display in the table (excluding LATITUDE and LONGITUDE)
@@ -761,13 +747,13 @@ def update_graphs(n_clicks):
 
 def render_content(tab):
     
-    gdf = gpd.read_file("Sundarban-Dashboard/Data/SB_Landscape_Boundary.shp.geojson")
+    #gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
         # Read the CSV file containing soil data
-    df_soilavg = pd.read_csv('Sundarban-Dashboard/Data/Soil_avg.csv')
+    #df_soilavg = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
 
     # Load the GeoJSON file containing polygon data
-    with open("Sundarban-Dashboard/Data/Soil_villages.geojson") as f:
-        geo = json.load(f)
+    #with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+     #   geo = json.load(f)
     
     # Define colors for each sdtname
     color_mapping = {
@@ -2359,7 +2345,7 @@ def render_content(tab):
 def update_independent_plot(n_clicks):
 
     
-    df_soilavg=pd.read_csv('Sundarban-Dashboard/Data/Soil_avg.csv')
+    #df_soilavg=pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
 
     fig = px.bar(df_soilavg, x="Village", y=["PH","EC1:2 (ds/m)","O/C (%)","N (kg/ha)","P (kg/ha)","K (kg/ha)","Cu (ppm)","Zn (ppm)","Fe (ppm)","Mn (ppm)","B (ppm)","S (ppm)"], title="<b>Soil Composition Per Village<b>")
     fig.update_layout(height=800)
@@ -2368,6 +2354,5 @@ def update_independent_plot(n_clicks):
 
 # Run the app and open it in a new tab
 if __name__ == '__main__':
-    app.run_server(debug=False, host='0.0.0.0', port=8051)
-
+    app.run_server(debug=True, port=8051)
     
