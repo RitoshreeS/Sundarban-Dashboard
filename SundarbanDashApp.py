@@ -45,7 +45,7 @@ df_soilavg = pd.read_csv('Data/Soil_avg.csv')
 
 # Initialize the Dash app
 app = dash.Dash(__name__, assets_folder='assets', assets_url_path='/assets/')
-#app = dash.Dash(__name__, external_stylesheets=external_stylesheets) # type: ignore
+
 
 # Define image source file path for the WWF India logo
 image_link = '/assets/WWF_logo.png'
@@ -2354,5 +2354,5 @@ def update_independent_plot(n_clicks):
 
 # Run the app and open it in a new tab
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run_server(debug=False)
     
