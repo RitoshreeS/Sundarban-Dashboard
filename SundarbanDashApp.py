@@ -12,10 +12,10 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 
 #Path for weather 
-df_weather = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Weather.csv')
+df_weather = pd.read_csv('Data/Weather.csv')
 
 #Path for crop advisory
-doc = Document('D:/wwf india/Website Dashboard/plotly-dash/Data/Crop Data.docx')
+doc = Document('Data/Crop Data.docx')
 table = doc.tables[0]
 data = []
 for row in table.rows:
@@ -25,23 +25,23 @@ df_cropdata = pd.DataFrame(data[1:], columns=data[0])
 
 df_cropdata['CROP'] = df_cropdata['CROP'].str.upper()
 
-df_calendar1 = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Data/cropcalendar.csv')
+df_calendar1 = pd.read_csv('Data/cropcalendar.csv')
 
 #Path for query data
-df_query = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/QueryData.csv')
+df_query = pd.read_csv('Data/QueryData.csv')
 
 
 # Path to read the GeoJSON files
-gdf = gpd.read_file("D:/wwf india/Website Dashboard/plotly-dash/Polygon/SB_Landscape_Boundary.shp.geojson")
+gdf = gpd.read_file("Data/SB_Landscape_Boundary.shp.geojson")
 
-with open ("D:/wwf india/Website Dashboard/plotly-dash/Polygon/27_villages.shp _all.geojson") as f:
+with open ("Data/27_villages.shp _all.geojson") as f:
     geojson_data = json.load(f)
     
-with open("D:/wwf india/Website Dashboard/plotly-dash/Polygon/Soil_villages.geojson") as f:
+with open("Data/Soil_villages.geojson") as f:
     geo = json.load(f)
 
 #Path for soil data
-df_soilavg = pd.read_csv('D:/wwf india/Website Dashboard/plotly-dash/Soil_avg.csv')
+df_soilavg = pd.read_csv('Data/Soil_avg.csv')
 
 # Initialize the Dash app
 app = dash.Dash(__name__, assets_folder='assets', assets_url_path='/assets/')
